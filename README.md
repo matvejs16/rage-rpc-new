@@ -29,7 +29,13 @@
         * [triggerClient(name, args)](#triggerclientname-args)
 * [Options](#options)
 * [Events](#events)
-* [Changelog](#changelog)
+
+## Information
+
+This package base is from [ziggi/rage-rpc](https://github.com/ziggi/rage-rpc)
+I'm planning to support this package with new features and bug fixes for the future.
+Migrating from [original package](https://github.com/micaww/rage-rpc) is easy, just change the require path to `rage-rpc-new` and you're good to go.
+This package supports big data transfer, so you can send big data to server/client/cef without any problems.
 
 ## Motivation
 
@@ -48,13 +54,13 @@ This is pretty much what everybody has learned to deal with, until now. `rage-rp
 You can install via [npm](https://github.com/npm/cli)
 
 ```
-npm i -S rage-rpc
+npm i -S rage-rpc-new
 ```
 
 From here, you can simply require the package in any RAGE context:
 
 ```javascript
-const rpc = require('rage-rpc');
+const rpc = require('rage-rpc-new');
 
 rpc.register('hi', () => 'hello!');
 ```
@@ -95,7 +101,7 @@ In order to use `require` in the browser, you'll need either an AMD loader or so
 
 ##### Client-side
 ```javascript
-const rpc = require('rage-rpc');
+const rpc = require('rage-rpc-new');
 
 rpc.register('getIsClimbing', () => mp.players.local.isClimbing());
 ```
@@ -128,7 +134,7 @@ const isClimbing = await rpc.callClient(player, 'getIsClimbing');
 
 ##### Server-side
 ```javascript
-const rpc = require('rage-rpc');
+const rpc = require('rage-rpc-new');
 
 rpc.register('getAllLicensePlates', () => mp.vehicles.toArray().map(vehicle => vehicle.numberPlate));
 ```
@@ -141,7 +147,7 @@ require('rage-rpc');
 
 ##### Browser
 ```javascript
-const rpc = require('rage-rpc');
+const rpc = require('rage-rpc-new');
 
 rpc.callServer('getAllLicensePlates').then(plates => {
     alert(plates.join(', '));
@@ -160,7 +166,7 @@ With `rage-rpc`, CEF can directly communicate with the server and vice-versa, wi
 
 ##### Server-side
 ```javascript
-const rpc = require('rage-rpc');
+const rpc = require('rage-rpc-new');
 
 rpc.register('log', (message, info) => {
     /*
@@ -176,7 +182,7 @@ rpc.register('log', (message, info) => {
 
 ##### Client-side OR Browser
 ```javascript
-const rpc = require('rage-rpc');
+const rpc = require('rage-rpc-new');
 
 function log(message){
     return rpc.callServer('log', message);
@@ -461,28 +467,3 @@ For remote procedure calling functions, there are optional options you can pass 
 ## Events
 
 You can now use rage-rpc as a full on replacement for mp.events. API functions that start with "trigger" use the same syntax as the ones that start with "call", except they do not return anything. They call remote events on any context where there can be many handlers or none.
-
-## Changelog
-
-Check the releases tab for an up-to-date changelog.
-
-#### 0.1.0
-
-* ADD: Bundled Typescript definitions
-* IMPROVE: CEF outgoing call returning performance
-* IMRPOVE: `callBrowsers` performance on all contexts
-* FIX: Some code simplifications
-
-#### 0.0.3
-
-* ADD: Extra player verification for outgoing server calls
-* FIX: Bug that prevented multiple resources from using RPC at the same time
-* FIX: False alarm for multiple CEF instances receiving the same result
-
-#### 0.0.2
-
-* FIX: UMD exposing for correct Node.js importing
-
-#### 0.0.1
-
-* Initial commit
