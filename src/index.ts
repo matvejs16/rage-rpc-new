@@ -83,7 +83,7 @@ if(!glob[PROCESS_EVENT]){
             }
             if(ret){
                 const promise = callProcedure(data.name, data.args, info);
-                if(!data.noRet) promise.then(res => ret({ ...part, res })).catch(err => ret({ ...part, err: err ? err : null }));
+                if(!data.noRet) promise.then(res => ret({ ...part, res } as any)).catch(err => ret({ ...part, err: err ? err : null } as any));
             }
         }else if(data.ret){ // a previously called remote procedure has returned
             const info = glob.__rpcPending[data.id];
@@ -137,7 +137,7 @@ if(!glob[PROCESS_EVENT]){
             });
 
             register(TRIGGER_EVENT_BROWSERS, ([name, args], info) => {
-                Object.values(glob.__rpcBrowsers).forEach(browser => {
+                Object.values(glob.__rpcBrowsers).forEach((browser: Browser) => {
                     _callBrowser(browser, TRIGGER_EVENT, [name, args], { fenv: info.environment, noRet: 1 });
                 });
             });
@@ -461,7 +461,7 @@ export function callBrowser(browser: Browser, name: string, args?: any, options:
 function callEvent(name: string, args: any, info: ProcedureListenerInfo){
     const listeners = glob.__rpcEvListeners[name];
     if(listeners){
-        listeners.forEach(listener => listener(args, info));
+        listeners.forEach((listener: any) => listener(args, info));
     }
 }
 
